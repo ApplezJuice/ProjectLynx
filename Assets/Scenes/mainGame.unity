@@ -353,7 +353,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 490377187}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.76, y: 1.25, z: 4}
+  m_LocalPosition: {x: 11.76, y: 1.25, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -552,7 +552,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744066641}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.9787483, y: 1.85, z: 1}
+  m_LocalPosition: {x: 6.9787483, y: 0.88, z: 2}
   m_LocalScale: {x: 1.25, y: 1.25, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -983,35 +983,35 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 755316884}
     m_ColliderPaths:
-    - - X: 70000000
-        Y: 0
-      - X: -19375000
-        Y: 0
-      - X: -19375000
-        Y: -7187500
-      - X: -17500000
-        Y: -9687500
-      - X: -17187500
-        Y: -10000000
-      - X: -17500000
-        Y: -10000000
-      - X: -17812500
-        Y: -12812500
-      - X: -17812500
-        Y: -20000000
-      - X: 70000000
-        Y: -20000000
+    - - X: -18975000
+        Y: 199999
+      - X: -18975000
+        Y: -6987500
+      - X: -17100000
+        Y: -9487500
+      - X: -16987500
+        Y: -9600000
+      - X: -17100000
+        Y: -9600000
+      - X: -17412500
+        Y: -12412500
+      - X: -17412500
+        Y: -19600000
+      - X: 68800000
+        Y: -19600000
+      - X: 68800000
+        Y: 199999
   m_CompositePaths:
     m_Paths:
-    - - {x: 7, y: 0}
-      - {x: -1.9375, y: 0}
-      - {x: -1.9375, y: -0.71875}
-      - {x: -1.75, y: -0.96875}
-      - {x: -1.71875, y: -1}
-      - {x: -1.75, y: -1}
-      - {x: -1.78125, y: -1.28125}
-      - {x: -1.78125, y: -2}
-      - {x: 7, y: -2}
+    - - {x: 6.88, y: 0.0199999}
+      - {x: -1.8975, y: 0.0199999}
+      - {x: -1.8975, y: -0.69875}
+      - {x: -1.71, y: -0.94875}
+      - {x: -1.69875, y: -0.96000004}
+      - {x: -1.71, y: -0.96000004}
+      - {x: -1.74125, y: -1.24125}
+      - {x: -1.74125, y: -1.96}
+      - {x: 6.88, y: -1.96}
   m_VertexDistance: 0.0005
 --- !u!50 &755316886
 Rigidbody2D:
@@ -1222,7 +1222,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1172459837}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.97, y: 1.25, z: 4}
+  m_LocalPosition: {x: -11.97, y: 1.25, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1331,7 +1331,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550051314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.97, y: 21.54, z: 5}
+  m_LocalPosition: {x: 11.97, y: 21.54, z: 8}
   m_LocalScale: {x: 3, y: 3, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1363,7 +1363,7 @@ Grid:
   m_GameObject: {fileID: 1589225985}
   m_Enabled: 1
   m_CellSize: {x: 1, y: 1, z: 0}
-  m_CellGap: {x: 0, y: 0, z: 0}
+  m_CellGap: {x: -0.02, y: -0.02, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
 --- !u!4 &1589225987
@@ -1501,7 +1501,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -1528,7 +1528,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 4294967295
-  jumpForce: 300
+  jumpForce: 350
 --- !u!61 &1744038834
 BoxCollider2D:
   m_ObjectHideFlags: 0
