@@ -70,6 +70,7 @@ public class Controller2D : RaycastController
 
             if (hit)
             {
+
                 
                 // need to get the angle of the surface we hit
                 // when the raycast hits a surface, it stores the surfaces normal (direction that is perpendicular to the surface)
