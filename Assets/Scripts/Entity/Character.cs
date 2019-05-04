@@ -4,6 +4,8 @@ using TMPro;
 
 public class Character : EntityBase
 {
+    public UIManager uiManager;
+
     public bool hpNeedsUpdateing = true;
     public bool manaNeedsUpdating = true;
     public bool isCasting = false;
@@ -64,6 +66,12 @@ public class Character : EntityBase
             isCasting = true;
             RangedAttack();
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            StatModifier strMod = new StatModifier(10f, StatModType.Flat);
+            Strength.AddModifier(strMod);
+            uiManager.charSheetNeedsUpdating = true;
+        }
         // END DEBUG TESTING
 
     }
@@ -81,12 +89,12 @@ public class Character : EntityBase
         Strength.BaseValue = 10;
         StatModifier mod1 = new StatModifier(10, StatModType.Flat);
         Strength.AddModifier(mod1);
-        print(Strength.Value);
+        //print(Strength.Value);
 
         dodge.BaseValue = 10;
-        print(dodge.Value);
+        //print(dodge.Value);
         dodge.AddModifier(mod1);
-        print(dodge.Value);
+        //print(dodge.Value);
     }
 
     public float getCurHP() { return curHP; }

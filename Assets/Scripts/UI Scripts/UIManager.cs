@@ -19,6 +19,15 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI lvlText;
     public TextMeshProUGUI xpText;
 
+    // Char Sheet
+    public GameObject charSheet;
+    public TextMeshProUGUI charSheetPlayerName;
+    public TextMeshProUGUI charSheetHealth;
+    public TextMeshProUGUI charSheetStr;
+
+    private bool showingCharSheet = false;
+    public bool charSheetNeedsUpdating;
+
     public LevelSystem charLevelSystem;
     public Character myChar;
 
@@ -33,6 +42,8 @@ public class UIManager : MonoBehaviour
         hpText.SetText("{0}/{1}", myChar.getCurHP(), myChar.getMaxHP());
         manaText.SetText("{0}/{1}", myChar.getCurMana(), myChar.getMaxMana());
         xpText.SetText("{0}/{1}", charLevelSystem.getCurXP(), charLevelSystem.getMaxXP());
+
+        charSheetNeedsUpdating = true;
     }
 
     // Update is called once per frame
@@ -40,6 +51,26 @@ public class UIManager : MonoBehaviour
     {
         currentManaFill = myChar.getCurMana() / myChar.getMaxMana();
         currentHPFill = myChar.getCurHP() / myChar.getMaxHP();
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (showingCharSheet)
+            {
+                charSheet.SetActive(false);
+                showingCharSheet = false;
+            }
+            else
+            {
+                charSheet.SetActive(true);
+                showingCharSheet = true;
+            }
+        }
+
+        // handle char sheet updates
+        if (charSheetNeedsUpdating)
+        {
+            UpdateCharSheet();
+        }
 
         // handle xp bar
         if (charLevelSystem.getCurXP() == 0)
@@ -85,6 +116,13 @@ public class UIManager : MonoBehaviour
 
             healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, currentHPFill, Time.deltaTime * lerpSpeed);
         }
+    }
+
+    public void UpdateCharSheet()
+    {
+        charSheetPlayerName.SetText(myChar.entityName);
+        charSheetHealth.SetText("{0}", myChar.getMaxHP());
+        charSheetStr.SetText("{0}", myChar.Strength.Value);
     }
 
     public void UpdateHPBar()
