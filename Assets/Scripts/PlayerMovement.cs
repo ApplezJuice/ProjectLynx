@@ -26,11 +26,16 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
     float velocityXSmoothing;
 
+    public Texture2D cursorMain;
+    public CursorMode cursorMode = CursorMode.Auto;
+    public Vector2 hotSpot = Vector2.zero;
+
     Controller2D controller;
 
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.SetCursor(cursorMain, hotSpot, cursorMode);
         controller = GetComponent<Controller2D>();
 
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
