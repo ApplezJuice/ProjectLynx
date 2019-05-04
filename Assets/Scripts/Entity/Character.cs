@@ -27,6 +27,7 @@ public class Character : EntityBase
 
         curMana = 90f;
         mana.BaseValue = 90f;
+        hpNeedsUpdateing = true;
         manaNeedsUpdating = true;
 
         TextMeshPro playerName = GetComponentInChildren<TextMeshPro>();

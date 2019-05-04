@@ -1,0 +1,114 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class UIManager : MonoBehaviour
+{
+    public Image healthBar;
+    public Image manaBar;
+    public Image xpBar;
+
+    public float healthBarCurrentFill;
+    public float manaBarCurrentFill;
+    public float xpBarCurrentFill;
+
+    public TextMeshProUGUI hpText;
+    public TextMeshProUGUI manaText;
+    public TextMeshProUGUI lvlText;
+    public TextMeshProUGUI xpText;
+
+    public LevelSystem charLevelSystem;
+    public Character myChar;
+
+    private float lerpSpeed = 2f;
+    private float currentXPFill;
+    private float currentManaFill;
+    private float currentHPFill;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        hpText.SetText("{0}/{1}", myChar.getCurHP(), myChar.getMaxHP());
+        manaText.SetText("{0}/{1}", myChar.getCurMana(), myChar.getMaxMana());
+        xpText.SetText("{0}/{1}", charLevelSystem.getCurXP(), charLevelSystem.getMaxXP());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        currentManaFill = myChar.getCurMana() / myChar.getMaxMana();
+        currentHPFill = myChar.getCurHP() / myChar.getMaxHP();
+
+        // handle xp bar
+        if (charLevelSystem.getCurXP() == 0)
+        {
+            currentXPFill = 0;
+        }
+        else
+        {
+            currentXPFill = (float)charLevelSystem.getCurXP() / charLevelSystem.getMaxXP();
+        }
+
+        if (charLevelSystem.xpNeedsUpdateing)
+        {
+            UpdateXPBar();
+        }
+
+        // handle lvl number
+        if (charLevelSystem.lvlNeedsUpdating)
+        {
+            UpdateLvlText();
+        }
+
+        // handle mana bar
+        if (myChar.manaNeedsUpdating)
+        {
+            UpdateManaBar();
+        }
+
+        if (Math.Round(currentManaFill, 4) != Math.Round(manaBar.fillAmount, 4))
+        {
+
+            manaBar.fillAmount = Mathf.Lerp(manaBar.fillAmount, currentManaFill, Time.deltaTime * lerpSpeed);
+        }
+
+        // handle hp bar
+        if (myChar.hpNeedsUpdateing)
+        {
+            UpdateHPBar();
+        }
+
+        if (Math.Round(currentHPFill, 4) != Math.Round(healthBar.fillAmount, 4))
+        {
+
+            healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, currentHPFill, Time.deltaTime * lerpSpeed);
+        }
+    }
+
+    public void UpdateHPBar()
+    {
+        hpText.SetText("{0}/{1}", myChar.getCurHP(), myChar.getMaxHP());
+        myChar.hpNeedsUpdateing = false;
+    }
+
+    public void UpdateManaBar()
+    {
+        manaText.SetText("{0}/{1}", myChar.getCurMana(), myChar.getMaxMana());
+        myChar.manaNeedsUpdating = false;
+    }
+
+    void UpdateLvlText()
+    {
+        lvlText.SetText(charLevelSystem.getCurLvl().ToString());
+        charLevelSystem.lvlNeedsUpdating = false;
+    }
+
+    public void UpdateXPBar()
+    {
+        xpText.SetText("{0}/{1}", charLevelSystem.getCurXP(), charLevelSystem.getMaxXP());
+        xpBar.fillAmount = currentXPFill;
+        charLevelSystem.xpNeedsUpdateing = false;
+    }
+}

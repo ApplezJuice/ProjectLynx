@@ -5,19 +5,19 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float movementSpeed = 1;
+    public float movementSpeed = 1;
 
     [SerializeField]
-    private Transform[] _groundPoints;
+    public Transform[] _groundPoints;
 
     [SerializeField]
-    private float groundRadius;
+    public float groundRadius;
 
     [SerializeField]
-    private LayerMask whatIsGround;
+    public LayerMask whatIsGround;
 
     [SerializeField]
-    private float jumpForce;
+    public float jumpForce;
 
     private bool facingRight;
     private bool isGrounded;

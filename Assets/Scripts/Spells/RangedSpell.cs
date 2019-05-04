@@ -8,8 +8,7 @@ public class RangedSpell : MonoBehaviour
     public Character player;
     [SerializeField]
     public GameObject playerGameObj;
-    float timer = 0f;
-    float waitTime = 2f;
+
     // Start is called before the first frame update
     void Start()
     {
