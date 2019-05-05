@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using TMPro;
 
 
@@ -20,6 +21,7 @@ public class Character : EntityBase
     //public Spell[] allSpells;
     //public Spell[] playerSpells;
     public SpellBook playerSpellBook;
+    public HashSet<int> spellOnCD;
 
     public Character (string _entityName, float _maxHP, float _maxMana, float _atkPower, int _level, float _atkSpeed, float _dodge) : base (_entityName, 100f, _maxMana, _atkPower, _level, _atkSpeed, _dodge)
     {
@@ -40,7 +42,7 @@ public class Character : EntityBase
         //playerSpells[0].castTime = allSpells[0].castTime;
         //playerSpells[0].spellDisc = allSpells[0].spellDisc;
         //playerSpells[0].baseDamage = allSpells[0].baseDamage;
-
+        spellOnCD = new HashSet<int>();
         SetAdditionalStats();
         //maxHP = 100f;
         curHP = 100f;
@@ -115,19 +117,45 @@ public class Character : EntityBase
 
     public void UsedSpell(int id)
     {
-        print("Used spell 1");
-        isCasting = true;
-        //if (playerSpells[id].type == SpellType.Ranged)
-        if (playerSpellBook.playerOwnedSpells[id].getSpellType() == SpellType.Ranged)
+        //print(spellOnCD.Contains(id));
+        if (spellOnCD.Contains(id) == false)
         {
-            //currentSpellCasted = rangedSpellPrefab.GetComponent<RangedSpell>();
-            currentSpellCasted = playerSpellBook.playerOwnedSpells[id].getSpellPrefab().GetComponent<RangedSpell>();
-            currentSpellCasted.castTime = playerSpellBook.playerOwnedSpells[id].getSpellCastTime();
-            currentSpellCasted.needPlayerDir = true;
-            RangedAttack(id);
+            //print("Used spell 1");
+            isCasting = true;
+            //if (playerSpells[id].type == SpellType.Ranged)
+            if (playerSpellBook.playerOwnedSpells[id].getSpellType() == SpellType.Ranged)
+            {
+                //currentSpellCasted = rangedSpellPrefab.GetComponent<RangedSpell>();
+                currentSpellCasted = playerSpellBook.playerOwnedSpells[id].getSpellPrefab().GetComponent<RangedSpell>();
+                currentSpellCasted.castTime = playerSpellBook.playerOwnedSpells[id].getSpellCastTime();
+                currentSpellCasted.needPlayerDir = true;
+                uiManager.CastingBar(id);
+                RangedAttack(id);
+
+                StartCoroutine(SpellOnCD(id));
+            }
         }
-                
-        
+    }
+
+    public IEnumerator SpellOnCD(int id)
+    {
+        spellOnCD.Add(id);
+        float cdTimer = 0.0f;
+
+        while (cdTimer <= (playerSpellBook.playerOwnedSpells[id].getSpellCooldown() + playerSpellBook.playerOwnedSpells[id].getSpellCastTime()) )
+        {
+            cdTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        SpellOffCD(id);
+    }
+
+    private void SpellOffCD(int id)
+    {
+        StopCoroutine(SpellOnCD(id));
+        //playerSpellBook.playerOwnedSpells[id].spellOnCD = false;
+        spellOnCD.Remove(id);
     }
 
     public float getCurHP() { return curHP; }

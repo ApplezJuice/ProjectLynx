@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -38,6 +39,14 @@ public class UIManager : MonoBehaviour
     private float currentManaFill;
     private float currentHPFill;
 
+    // cast bar
+    public SpellBook playerSpellBook;
+    public Image castingBar;
+    public TextMeshProUGUI castBarSpellTitle;
+    public TextMeshProUGUI spellCastTime;
+    public Image spellIcon;
+    public CanvasGroup spellCastBarCanvasGroup;
+
     // action bar
     public Button[] actionButtons;
     private KeyCode action1, action2, action3;
@@ -46,6 +55,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         myCharRangedSpell = GameObject.FindGameObjectWithTag("Player").GetComponent<RangedSpell>();
+        playerSpellBook = GameObject.FindGameObjectWithTag("Player").GetComponent<SpellBook>();
 
         action1 = KeyCode.Alpha1;
         action2 = KeyCode.Alpha2;
@@ -187,5 +197,64 @@ public class UIManager : MonoBehaviour
     public void ActionButtonOnClick(int btnIndex)
     {
         actionButtons[btnIndex].onClick.Invoke();
+    }
+
+    public void CastingBar(int id)
+    {
+        castingBar.fillAmount = 0;
+        castingBar.color = new Color(playerSpellBook.playerOwnedSpells[id].getSpellBarColor().r,
+                                     playerSpellBook.playerOwnedSpells[id].getSpellBarColor().g,
+                                     playerSpellBook.playerOwnedSpells[id].getSpellBarColor().b,1f);
+        castBarSpellTitle.SetText(playerSpellBook.playerOwnedSpells[id].getSpellName());
+        spellIcon.sprite = playerSpellBook.playerOwnedSpells[id].getIcon();
+        //print(playerSpellBook.playerOwnedSpells[id].getSpellBarColor());
+
+        StartCoroutine(Progress(id));
+        StartCoroutine(FadeBar());
+    }
+
+    private IEnumerator Progress(int id)
+    {
+        float timeLeft = Time.deltaTime;
+        float rate = 1.0f / playerSpellBook.playerOwnedSpells[id].getSpellCastTime();
+        float progress = 0.0f;
+
+        while (progress <= 1.0f)
+        {
+            castingBar.fillAmount = Mathf.Lerp(0, 1, progress);
+
+            progress += rate * Time.deltaTime;
+            timeLeft += Time.deltaTime;
+            spellCastTime.SetText((playerSpellBook.playerOwnedSpells[id].getSpellCastTime() - timeLeft).ToString("F1"));
+            if ((playerSpellBook.playerOwnedSpells[id].getSpellCastTime() - timeLeft) <= 0f)
+            {
+                spellCastTime.SetText("0.0");
+            }
+            yield return null;
+        }
+        StopCasting(id);
+
+    }
+
+    private IEnumerator FadeBar()
+    {
+        float rate = 1.0f / 0.5f;
+        float progress = 0.0f;
+
+        while (progress <= 1.0f)
+        {
+            spellCastBarCanvasGroup.alpha = Mathf.Lerp(0, 1, progress);
+
+            progress += rate * Time.deltaTime;
+
+            yield return null;
+        }
+    }
+
+    private void StopCasting(int id)
+    {
+        StopCoroutine(FadeBar());
+        StopCoroutine(Progress(id));
+        spellCastBarCanvasGroup.alpha = 0;
     }
 }
