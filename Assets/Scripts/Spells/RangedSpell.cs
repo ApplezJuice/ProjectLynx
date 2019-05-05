@@ -11,9 +11,9 @@ public class RangedSpell : MonoBehaviour
     [SerializeField]
     public PlayerMovement playerMovement;
 
-    private float castTime = 2f;
+    public float castTime = 2f;
 
-    private bool hasCasted = false;
+    //private bool hasCasted = false;
     public bool needPlayerDir = true;
     private bool playerFacingRight = true;
 

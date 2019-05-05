@@ -123,7 +123,7 @@ public class Controller2D : RaycastController
 
         for (int i = 0; i < verticalRayCount; i++)
         {
-            Physics2D.SyncTransforms();
+            //Physics2D.SyncTransforms();
             // if directionY is -1 ? then set to bottom left : otherwise set it to topleft
             Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
             rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);

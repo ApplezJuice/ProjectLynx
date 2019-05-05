@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-public enum SpellType { Ranged }
-public enum SpellDiscipline { Frost, Fire, Arcane, Shadow}
+//public enum SpellType { Ranged }
+//public enum SpellDiscipline { Frost, Fire, Arcane, Shadow}
 
 [System.Serializable]
 public class Spell
