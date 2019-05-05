@@ -9576,3 +9576,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e4792bf3224ab8469808aa5d1f39ea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  playerGameObj: {fileID: 0}
+  playerMovement: {fileID: 0}
+  needPlayerDir: 1
+  collider: {fileID: 0}
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  horizontalRayCount: 4

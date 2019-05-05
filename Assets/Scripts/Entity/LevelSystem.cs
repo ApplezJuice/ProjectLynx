@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelSystem : MonoBehaviour
 {
+    public UIManager uiManager;
     public bool xpNeedsUpdateing;
     public bool lvlNeedsUpdating;
     int curXP;
@@ -40,7 +41,6 @@ public class LevelSystem : MonoBehaviour
     void Start()
     {
 
-
         xpNeedsUpdateing = true;
         lvlNeedsUpdating = true;
     }
@@ -57,6 +57,7 @@ public class LevelSystem : MonoBehaviour
                 {
                     curXP = (curXP + 10) - levelDictionary[curLvl];
                     curLvl++;
+                    uiManager.charSheetNeedsUpdating = true;
                     lvlNeedsUpdating = true;
                 }
             }

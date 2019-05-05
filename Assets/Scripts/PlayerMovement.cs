@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
     public CursorMode cursorMode = CursorMode.Auto;
     public Vector2 hotSpot = Vector2.zero;
 
+    public bool isFacingRight;
+
     Controller2D controller;
 
     // Start is called before the first frame update
@@ -51,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
 
         float targetVelocityX = input.x * moveSpeed;
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
+
+        isFacingRight = (velocity.x >= 0) ? true : false;
 
         bool wallSliding = false;
         if ((controller.collisions.left || controller.collisions.right) && !controller.collisions.below && velocity.y < 0)

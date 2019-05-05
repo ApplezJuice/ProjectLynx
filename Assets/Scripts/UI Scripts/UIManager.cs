@@ -24,21 +24,33 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI charSheetPlayerName;
     public TextMeshProUGUI charSheetHealth;
     public TextMeshProUGUI charSheetStr;
+    public TextMeshProUGUI charSheetLvl;
 
     private bool showingCharSheet = false;
     public bool charSheetNeedsUpdating;
 
     public LevelSystem charLevelSystem;
     public Character myChar;
+    public RangedSpell myCharRangedSpell;
 
     private float lerpSpeed = 2f;
     private float currentXPFill;
     private float currentManaFill;
     private float currentHPFill;
 
+    // action bar
+    public Button[] actionButtons;
+    private KeyCode action1, action2, action3;
+
     // Start is called before the first frame update
     void Start()
     {
+        myCharRangedSpell = GameObject.FindGameObjectWithTag("Player").GetComponent<RangedSpell>();
+
+        action1 = KeyCode.Alpha1;
+        action2 = KeyCode.Alpha2;
+        action3 = KeyCode.Alpha3;
+
         hpText.SetText("{0}/{1}", myChar.getCurHP(), myChar.getMaxHP());
         manaText.SetText("{0}/{1}", myChar.getCurMana(), myChar.getMaxMana());
         xpText.SetText("{0}/{1}", charLevelSystem.getCurXP(), charLevelSystem.getMaxXP());
@@ -51,6 +63,27 @@ public class UIManager : MonoBehaviour
     {
         currentManaFill = myChar.getCurMana() / myChar.getMaxMana();
         currentHPFill = myChar.getCurHP() / myChar.getMaxHP();
+
+        // handle action bars
+        if (Input.GetKeyDown(action1))
+        {
+            ActionButtonOnClick(0);
+            //myCharRangedSpell.needPlayerDir = true;
+            //myChar.isCasting = true;
+            //myChar.RangedAttack();
+        }
+        if (Input.GetKeyDown(action2))
+        {
+            //myChar.UsedSpell(myChar.playerSpells[0].id);
+            ActionButtonOnClick(0);
+        }
+        if (Input.GetKeyDown(action3))
+        {
+            //myChar.UsedSpell(myChar.playerSpells[0].id);
+            ActionButtonOnClick(0);
+        }
+
+        // character sheet
 
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -123,6 +156,7 @@ public class UIManager : MonoBehaviour
         charSheetPlayerName.SetText(myChar.entityName);
         charSheetHealth.SetText("{0}", myChar.getMaxHP());
         charSheetStr.SetText("{0}", myChar.Strength.Value);
+        charSheetLvl.SetText("{0}", charLevelSystem.getCurLvl());
     }
 
     public void UpdateHPBar()
@@ -148,5 +182,10 @@ public class UIManager : MonoBehaviour
         xpText.SetText("{0}/{1}", charLevelSystem.getCurXP(), charLevelSystem.getMaxXP());
         xpBar.fillAmount = currentXPFill;
         charLevelSystem.xpNeedsUpdateing = false;
+    }
+
+    public void ActionButtonOnClick(int btnIndex)
+    {
+        actionButtons[btnIndex].onClick.Invoke();
     }
 }

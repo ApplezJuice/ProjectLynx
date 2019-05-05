@@ -13,6 +13,11 @@ public class Character : EntityBase
 
     [SerializeField]
     public GameObject rangedSpellPrefab;
+    public RangedSpell currentSpellCasted;
+
+    // Spell System
+    public Spell[] allSpells;
+    public Spell[] playerSpells;
 
     public Character (string _entityName, float _maxHP, float _maxMana, float _atkPower, int _level, float _atkSpeed, float _dodge) : base (_entityName, 100f, _maxMana, _atkPower, _level, _atkSpeed, _dodge)
     {
@@ -22,6 +27,18 @@ public class Character : EntityBase
 
     public void Start()
     {
+        // add spells
+        playerSpells[0].id = allSpells[0].id;
+        playerSpells[0].name = allSpells[0].name;
+        playerSpells[0].description = allSpells[0].description;
+        playerSpells[0].icon = allSpells[0].icon;
+        playerSpells[0].type = allSpells[0].type;
+        playerSpells[0].spellPrefab = allSpells[0].spellPrefab;
+        playerSpells[0].cooldown = allSpells[0].cooldown;
+        playerSpells[0].castTime = allSpells[0].castTime;
+        playerSpells[0].spellDisc = allSpells[0].spellDisc;
+        playerSpells[0].baseDamage = allSpells[0].baseDamage;
+
         SetAdditionalStats();
         //maxHP = 100f;
         curHP = 100f;
@@ -61,11 +78,7 @@ public class Character : EntityBase
             GetMana(10);
             manaNeedsUpdating = true;
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            isCasting = true;
-            RangedAttack();
-        }
+        
         if (Input.GetKeyDown(KeyCode.M))
         {
             StatModifier strMod = new StatModifier(10f, StatModType.Flat);
@@ -76,11 +89,11 @@ public class Character : EntityBase
 
     }
 
-    void RangedAttack()
+    public void RangedAttack(int id)
     {
         Vector3 SpawnSpellLoc = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
         GameObject clone;
-        clone = Instantiate(rangedSpellPrefab, SpawnSpellLoc, Quaternion.identity);
+        clone = Instantiate(playerSpells[id].spellPrefab, SpawnSpellLoc, Quaternion.identity);
 
     }
 
@@ -95,6 +108,23 @@ public class Character : EntityBase
         //print(dodge.Value);
         dodge.AddModifier(mod1);
         //print(dodge.Value);
+    }
+
+    public void UsedSpell(int id)
+    {
+        switch (id)
+        {
+            case 0:
+                print("Used spell 1");
+                isCasting = true;
+                if (playerSpells[id].type == SpellType.Ranged)
+                {
+                    currentSpellCasted = rangedSpellPrefab.GetComponent<RangedSpell>();
+                    currentSpellCasted.needPlayerDir = true;
+                    RangedAttack(id);
+                }
+                break;
+        }
     }
 
     public float getCurHP() { return curHP; }
