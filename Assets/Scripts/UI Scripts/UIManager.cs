@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI manaText;
     public TextMeshProUGUI lvlText;
     public TextMeshProUGUI xpText;
+    public TextMeshProUGUI playerNamePortrait;
 
     // Char Sheet
     public GameObject charSheet;
@@ -60,6 +61,8 @@ public class UIManager : MonoBehaviour
         action1 = KeyCode.Alpha1;
         action2 = KeyCode.Alpha2;
         action3 = KeyCode.Alpha3;
+
+        playerNamePortrait.SetText(myChar.entityName);
 
         hpText.SetText("{0}/{1}", myChar.getCurHP(), myChar.getMaxHP());
         manaText.SetText("{0}/{1}", myChar.getCurMana(), myChar.getMaxMana());
