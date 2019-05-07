@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb295661e8fabd4493723afc20c19b5, type: 3}
   m_Name: Frostbolt
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: c8d9ce44a467dbd45b34f2b08f13b2e5, type: 3}
+  icon: {fileID: 21300000, guid: a14958add9178aa4c96ed6918164e74c, type: 3}
   spellName: Frostbolt
   description: Basic frost spell
   id: 0
