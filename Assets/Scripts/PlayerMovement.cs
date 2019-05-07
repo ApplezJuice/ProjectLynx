@@ -34,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
 
     Controller2D controller;
 
+    public Character myChar;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,11 +44,44 @@ public class PlayerMovement : MonoBehaviour
 
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+
+        myChar = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
         //print("Gravity: " + gravity + " Jump Velocity: " + jumpVelocity);
     }
 
     private void Update()
     {
+
+        // DEBUG TESTING
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            myChar.TakeDamage(10);
+            myChar.hpNeedsUpdateing = true;
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            myChar.HealSelf(10);
+            myChar.hpNeedsUpdateing = true;
+        }
+        // Mana
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            myChar.UseMana(10);
+            myChar.manaNeedsUpdating = true;
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            myChar.GetMana(10);
+            myChar.manaNeedsUpdating = true;
+        }
+
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    StatModifier strMod = new StatModifier(10f, StatModType.Flat);
+        //    myChar.Strength.AddModifier(strMod);
+        //    uiManager.charSheetNeedsUpdating = true;
+        //}
+        // END DEBUG TESTING
 
         Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         int wallDirX = (controller.collisions.left) ? -1 : 1;

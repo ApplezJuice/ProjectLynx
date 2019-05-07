@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EntityBase : MonoBehaviour
 {
@@ -19,8 +17,21 @@ public class EntityBase : MonoBehaviour
     public CharacterStat hp;
     public CharacterStat mana;
 
+
+    // base stats
     public CharacterStat Strength;
+    public CharacterStat Dexterity;
+    public CharacterStat Intellect;
+    public CharacterStat Stamina;
+    public CharacterStat CritChance;
     public CharacterStat dodge;
+
+    // resists
+    public CharacterStat FrostResist;
+    public CharacterStat FireResist;
+    public CharacterStat PoisonResist;
+    public CharacterStat ArcaneResist;
+    public CharacterStat ShadowResist;
 
     // all params provided
     public EntityBase(string _entityName, float _maxHP, float _maxMana, float _atkPower, int _level, float _atkSpeed, float _dodge)

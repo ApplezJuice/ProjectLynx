@@ -25,8 +25,10 @@ public class UIManager : MonoBehaviour
     public GameObject charSheet;
     public TextMeshProUGUI charSheetPlayerName;
     public TextMeshProUGUI charSheetHealth;
-    public TextMeshProUGUI charSheetStr;
     public TextMeshProUGUI charSheetLvl;
+    //char sheet stats
+    //public Dictionary<string,TextMeshProUGUI> charSheetStats;
+    public TextMeshProUGUI[] charSheetStats;
 
     private bool showingCharSheet = false;
     public bool charSheetNeedsUpdating;
@@ -58,6 +60,7 @@ public class UIManager : MonoBehaviour
         myCharRangedSpell = GameObject.FindGameObjectWithTag("Player").GetComponent<RangedSpell>();
         playerSpellBook = GameObject.FindGameObjectWithTag("Player").GetComponent<SpellBook>();
 
+        // key bindings for hotbar
         action1 = KeyCode.Alpha1;
         action2 = KeyCode.Alpha2;
         action3 = KeyCode.Alpha3;
@@ -80,10 +83,8 @@ public class UIManager : MonoBehaviour
         // handle action bars
         if (Input.GetKeyDown(action1))
         {
+            // need to make this dynamic depending on the spell / item that is in this hotbar
             ActionButtonOnClick(0);
-            //myCharRangedSpell.needPlayerDir = true;
-            //myChar.isCasting = true;
-            //myChar.RangedAttack();
         }
         if (Input.GetKeyDown(action2))
         {
@@ -167,9 +168,12 @@ public class UIManager : MonoBehaviour
     public void UpdateCharSheet()
     {
         charSheetPlayerName.SetText(myChar.entityName);
-        charSheetHealth.SetText("{0}", myChar.getMaxHP());
-        charSheetStr.SetText("{0}", myChar.Strength.Value);
-        charSheetLvl.SetText("{0}", charLevelSystem.getCurLvl());
+        //charSheetHealth.SetText("{0}", myChar.getMaxHP());
+        //charSheetStr.SetText("{0}", myChar.Strength.Value);
+        charSheetStats[1].SetText("{0}", myChar.getMaxHP());
+        charSheetStats[0].SetText("{0}", myChar.Strength.Value);
+        charSheetStats[2].SetText("{0}", charLevelSystem.getCurLvl());
+        //charSheetLvl.SetText("{0}", charLevelSystem.getCurLvl());
     }
 
     public void UpdateHPBar()

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using TMPro;
 
 
 public class EnemyTest : EntityBase
 {
+    public TextMeshPro enemyName;
     public EnemyTest(string _entityName, float _maxHP, float _maxMana, float _atkPower, int _level, float _atkSpeed, float _dodge) : base(_entityName, 100f, _maxMana, _atkPower, _level, _atkSpeed, _dodge)
     {
 
@@ -14,6 +16,8 @@ public class EnemyTest : EntityBase
         maxHP = 200f;
         curHP = 200f;
         hp.BaseValue = 200f;
+
+        enemyName.SetText(entityName);
 
     }
 

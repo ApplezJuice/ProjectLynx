@@ -13,6 +13,12 @@ public class Character : EntityBase
     public bool isCasting = false;
     public bool spellCasted = false;
 
+    public float healthTickRate;
+    public float manaTickRate;
+
+    public bool healthTickOn = false;
+    public bool ManaTickOn = false;
+
     [SerializeField]
     //public GameObject rangedSpellPrefab;
     public RangedSpell currentSpellCasted;
@@ -23,7 +29,8 @@ public class Character : EntityBase
     public SpellBook playerSpellBook;
     public HashSet<int> spellOnCD;
 
-    public Character (string _entityName, float _maxHP, float _maxMana, float _atkPower, int _level, float _atkSpeed, float _dodge) : base (_entityName, 100f, _maxMana, _atkPower, _level, _atkSpeed, _dodge)
+    public Character (string _entityName, float _maxHP, float _maxMana, float _atkPower, int _level, float _atkSpeed, float _dodge) 
+        : base (_entityName, 100f, _maxMana, _atkPower, _level, _atkSpeed, _dodge)
     {
 
     }
@@ -31,17 +38,22 @@ public class Character : EntityBase
 
     public void Start()
     {
+        Init();
+       
+        StartCoroutine(HealOverTime());
+        StartCoroutine(ManaOverTime());
+    }
+
+    public void Update()
+    {
+
+        
+
+    }
+
+    private void Init()
+    {
         // add spells
-        //playerSpells[0].id = allSpells[0].id;
-        //playerSpells[0].name = allSpells[0].name;
-        //playerSpells[0].description = allSpells[0].description;
-        //playerSpells[0].icon = allSpells[0].icon;
-        //playerSpells[0].type = allSpells[0].type;
-        //playerSpells[0].spellPrefab = allSpells[0].spellPrefab;
-        //playerSpells[0].cooldown = allSpells[0].cooldown;
-        //playerSpells[0].castTime = allSpells[0].castTime;
-        //playerSpells[0].spellDisc = allSpells[0].spellDisc;
-        //playerSpells[0].baseDamage = allSpells[0].baseDamage;
         spellOnCD = new HashSet<int>();
         SetAdditionalStats();
         //maxHP = 100f;
@@ -55,42 +67,28 @@ public class Character : EntityBase
 
         TextMeshPro playerName = GetComponentInChildren<TextMeshPro>();
         playerName.SetText(entityName);
+
+        healthTickOn = true;
+        ManaTickOn = true;
+
+        SetBaseStats();
     }
 
-    public void Update()
+    private void SetBaseStats()
     {
+        Strength.BaseValue = 10f;
+        Dexterity.BaseValue = 8f;
+        Stamina.BaseValue = 10f;
+        Intellect.BaseValue = 7f;
+        dodge.BaseValue = 11f;
+        CritChance.BaseValue = 7f;
 
-        // DEBUG TESTING
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            TakeDamage(10);
-            hpNeedsUpdateing = true;
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            HealSelf(10);
-            hpNeedsUpdateing = true;
-        }
-        // Mana
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            UseMana(10);
-            manaNeedsUpdating = true;
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            GetMana(10);
-            manaNeedsUpdating = true;
-        }
-        
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            StatModifier strMod = new StatModifier(10f, StatModType.Flat);
-            Strength.AddModifier(strMod);
-            uiManager.charSheetNeedsUpdating = true;
-        }
-        // END DEBUG TESTING
-
+        //resists
+        FrostResist.BaseValue = 5f;
+        FireResist.BaseValue = 6f;
+        ArcaneResist.BaseValue = 5f;
+        PoisonResist.BaseValue = 7f;
+        ShadowResist.BaseValue = 3f;
     }
 
     public void RangedAttack(int id)
@@ -104,7 +102,6 @@ public class Character : EntityBase
 
     public void SetAdditionalStats()
     {
-        Strength.BaseValue = 10;
         StatModifier mod1 = new StatModifier(10, StatModType.Flat);
         Strength.AddModifier(mod1);
         //print(Strength.Value);
@@ -156,6 +153,58 @@ public class Character : EntityBase
         StopCoroutine(SpellOnCD(id));
         //playerSpellBook.playerOwnedSpells[id].spellOnCD = false;
         spellOnCD.Remove(id);
+    }
+
+    IEnumerator HealOverTime()
+    {
+        while (healthTickOn)
+        {
+            if (curHP < hp.Value)
+            {
+                // need to play test this variable to get a good number to heal over time
+                // 5% over 5 seconds
+                if (curHP + ((healthTickRate/100) * hp.Value) >= hp.Value)
+                {
+                    curHP = hp.Value;
+                    hpNeedsUpdateing = true;
+                    //print(healthTickRate);
+                }
+                else
+                {
+                    curHP += ((healthTickRate / 100) * hp.Value);
+                    hpNeedsUpdateing = true;
+                    //print(healthTickRate);
+                }
+
+            }
+            
+            yield return new WaitForSeconds(5f);
+        }
+    }
+
+    IEnumerator ManaOverTime()
+    {
+        while (ManaTickOn)
+        {
+            if (curMana < mana.Value)
+            {
+                if (curMana + ((manaTickRate / 100) * mana.Value) >= mana.Value)
+                {
+                    curMana = mana.Value;
+                    manaNeedsUpdating = true;
+                    //print(healthTickRate);
+                }
+                else
+                {
+                    curMana += ((manaTickRate / 100) * mana.Value);
+                    manaNeedsUpdating = true;
+                    //print(healthTickRate);
+                }
+
+            }
+
+            yield return new WaitForSeconds(5f);
+        }
     }
 
     public float getCurHP() { return curHP; }
