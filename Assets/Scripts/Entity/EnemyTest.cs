@@ -31,13 +31,13 @@ public class EnemyTest : EntityBase
         Strength.BaseValue = 50;
         StatModifier mod1 = new StatModifier(10, StatModType.Flat);
         Strength.AddModifier(mod1);
-        print(Strength.Value);
+        //print(Strength.Value);
 
         dodge.BaseValue = 70;
-        print("Enemy: " + dodge.Value);
+        //print("Enemy: " + dodge.Value);
         dodge.AddModifier(mod1);
-        print("Enemy: " + dodge.Value);
-        print("Enemy: " + hp.Value);
+        //print("Enemy: " + dodge.Value);
+        //print("Enemy: " + hp.Value);
     }
 
     public float getCurHP() { return curHP; }
