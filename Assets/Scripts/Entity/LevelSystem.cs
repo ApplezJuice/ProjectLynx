@@ -9,6 +9,7 @@ public class LevelSystem : MonoBehaviour
     public bool lvlNeedsUpdating;
     int curXP;
     int curLvl;
+    public GameObject levelPrefab;
 
     Dictionary<int, int> levelDictionary = new Dictionary<int, int>();
 
@@ -50,22 +51,38 @@ public class LevelSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            if ((curXP + 10) >= getMaxXP())
-            {
-                //curXP = getMaxXP();
-                if (curLvl < 60)
-                {
-                    curXP = (curXP + 10) - levelDictionary[curLvl];
-                    curLvl++;
-                    uiManager.charSheetNeedsUpdating = true;
-                    lvlNeedsUpdating = true;
-                }
-            }
-            else {
-                curXP += 10;
-            }
-            xpNeedsUpdateing = true;
+            GainXP(10);
         }
 
+    }
+
+    void GainXP(int xpAmnt)
+    {
+        if ((curXP + xpAmnt) >= getMaxXP())
+        {
+            //curXP = getMaxXP();
+            if (curLvl < 60)
+            {
+                curXP = (curXP + xpAmnt) - levelDictionary[curLvl];
+                curLvl++;
+                uiManager.charSheetNeedsUpdating = true;
+                lvlNeedsUpdating = true;
+                LevelUp();
+            }
+        }
+        else
+        {
+            curXP += xpAmnt;
+            
+        }
+        xpNeedsUpdateing = true;
+    }
+
+    void LevelUp()
+    {
+        Vector3 LevelSpawnLocation = new Vector3(this.transform.position.x, this.transform.position.y - .5f, this.transform.position.z);
+        GameObject level;
+        //clone = Instantiate(playerSpells[id].spellPrefab, SpawnSpellLoc, Quaternion.identity);
+        level = Instantiate(levelPrefab, LevelSpawnLocation, Quaternion.identity);
     }
 }

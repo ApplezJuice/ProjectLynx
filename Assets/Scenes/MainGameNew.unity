@@ -3468,6 +3468,8 @@ MonoBehaviour:
   uiManager: {fileID: 1018300751}
   xpNeedsUpdateing: 0
   lvlNeedsUpdating: 0
+  levelPrefab: {fileID: 1718437575496313543, guid: aa6a2046cb5b3ef4599ee54a4a5719bc,
+    type: 3}
 --- !u!114 &590143412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19314,7 +19316,6 @@ GameObject:
   - component: {fileID: 2091010174}
   - component: {fileID: 2091010173}
   - component: {fileID: 2091010172}
-  - component: {fileID: 2091010170}
   - component: {fileID: 2091010169}
   - component: {fileID: 2091010171}
   m_Layer: 11
@@ -19340,21 +19341,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b84457e8256461948893e0ea46726d6b, type: 2}
   allSpells:
   - {fileID: 11400000, guid: b84457e8256461948893e0ea46726d6b, type: 2}
---- !u!114 &2091010170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2091010168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 515ccd6e6b93a6348a7e364b0c04b7c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiManager: {fileID: 1018300751}
-  xpNeedsUpdateing: 0
-  lvlNeedsUpdating: 0
 --- !u!114 &2091010171
 MonoBehaviour:
   m_ObjectHideFlags: 0
