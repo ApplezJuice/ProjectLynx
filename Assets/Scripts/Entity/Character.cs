@@ -97,6 +97,7 @@ public class Character : EntityBase
         GameObject clone;
         //clone = Instantiate(playerSpells[id].spellPrefab, SpawnSpellLoc, Quaternion.identity);
         clone = Instantiate(playerSpellBook.playerOwnedSpells[id].getSpellPrefab(), SpawnSpellLoc, Quaternion.identity);
+        clone.GetComponent<RangedSpell>().spellID = id;
 
     }
 

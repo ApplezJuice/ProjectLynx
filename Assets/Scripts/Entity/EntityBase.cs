@@ -10,6 +10,9 @@ public class EntityBase : MonoBehaviour
     protected float curMana;
     protected float maxMana;
 
+    public bool isDead = false;
+    public bool isDamageable = true;
+
     //public float baseAttackPower;
 
     public CharacterStat attackPower;
@@ -61,8 +64,31 @@ public class EntityBase : MonoBehaviour
 
     public virtual void TakeDamage(float dmg)
     {
-        curHP = Mathf.Max(curHP - dmg, 0);
+        if (isDamageable)
+        {
+            if (curHP - dmg <= 0)
+            {
+                Die();
+            }
+            else
+            {
+                curHP = Mathf.Max(curHP - dmg, 0);
+            }
+        }
+    }
 
+    public virtual void Die()
+    {
+        isDead = true;
+    }
+
+    public virtual void Reserect()
+    {
+        if (isDead)
+        {
+            isDead = false;
+            curHP = (int)maxHP / 10;
+        }
     }
 
     public virtual void HealSelf(float amnt)

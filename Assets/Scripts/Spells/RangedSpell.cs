@@ -21,6 +21,8 @@ public class RangedSpell : MonoBehaviour
     public LayerMask collisionMask;
     public int horizontalRayCount = 4;
 
+    public int spellID;
+
 
     // Start is called before the first frame update
     void Start()
@@ -90,6 +92,10 @@ public class RangedSpell : MonoBehaviour
 
             if (hit)
             {
+                if (hit.collider.GetComponent<EnemyTest>())
+                {
+                    hit.collider.GetComponent<EnemyTest>().TakeDamage(player.playerSpellBook.playerOwnedSpells[spellID].getSpellBaseDamage());
+                }
                 Destroy(gameObject);
             }
         }
